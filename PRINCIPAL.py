@@ -49,10 +49,10 @@ df_pe['co'] = (df_pe['Close'] - df_pe['Open']) * pip_mult
 vs_grafica2 = vs.g_boxplot_varios(p0_data=df_pe[['co']], p1_norm=False)
 vs_grafica2.show()
 
-# -- 01: Mes de la vela.
+# -- 01: (1pt) ['mes'] : Mes en el que ocurrió la vela.
 df_pe['mes'] = [df_pe['TimeStamp'][i].month for i in range(0, len(df_pe['TimeStamp']))]
 
-# -- 02: Sesion de la vela.
+# -- 02: (1pt) ['sesion'] : Sesion de la vela
 """
 'asia':  si en la columna ['hora'] tiene alguno de estos valores -> 22, 23, 0, 1, 2, 3, 4, 5, 6, 7
 'asia_europa': si en la columna ['hora'] tiene alguno de estos valores -> 8
@@ -81,27 +81,27 @@ def apply_conditions(i):
 # Asignar la sesion en base a la funcion
 df_pe['sesion'] = list(map(apply_conditions, df_pe['hora']))
 
-# -- 03: Amplitud OC esperada de vela para cualquier dia de la semana (Dist de Freq).
+# -- 03: (1pt) ['oc']: Amplitud de vela (en pips).
 """
 Calcular la diferencia entre las columnas ['Open'] y ['Close'], expresarla en pips.
 """
 df_pe['oc'] = (df_pe['Open'] - df_pe['Close']) * pip_mult
 
-# -- 04: Amplitud HL esperada de vela para cualquier dia de la semana (Dist de Freq).
+# -- 04: (1pt) ['hl']: Amplitud de extremos (en pips).
 """
 Calcular la diferencia entre las columnas ['High'] y ['Low'], expresarla en pips.
 """
 df_pe['hl'] = (df_pe['High'] - df_pe['Low']) * pip_mult
 
-# -- 05: Evolucion de velas consecutivas (1: Alcistas, 0: Bajistas).
+# -- 05: (.5pt) ['sentido'] : Sentido de la vela (alcista o bajista)
 """
 En esta columna debes de asignarle el valor de 'alcista' para cuando ['Close'] >= ['Open'] y 'bajista' 
 en el caso contrario.
 """
-df_pe['evolucion'] = ["alcista" if df_pe['Close'][i] >= df_pe['Open'][i] else "bajista"
+df_pe['sentido'] = ["alcista" if df_pe['Close'][i] >= df_pe['Open'][i] else "bajista"
                       for i in range(0, len(df_pe['Close']))]
 
-# -- 06: Maxima evolucion esperada de velas consecutivas (Dist Acum de Freq).
+# -- 06: (.5pt) ['sentido_c'] Conteo de velas consecutivas alcistas/bajistas.
 """
 En el DataFrame de los precios OHLC, para cada renglon, ir acumulando el valor de velas consecutivas ALCISTAS o BAJISTAS
 e ir haciendo el conteo de ocurrencia para cada caso. Se comienza el conteo a partir de la primera repetición, por 
@@ -110,15 +110,15 @@ el tiempo t. En este ejemplo ['sentido_c'] tendría un 2 (en el tiempo t-2 fue l
 y en tiempo t fueron 2 velas fueron consecutivamente en el mismo sentido).
 """
 
-# -- 07: Calculo + Grafica autopropuesta.
+# -- 07: (1pt) Ventanas móviles de volatilidad
 """
 Utiliza la columna de ['hl'] como una medida de "volatilidad" en pips de las velas. Con esta columna, genera las 
 siguientes columnas haciendo una "ventana móvil" del máximo de esos últimos n valores. Las columnas serán 3, una para 
 cada valor de la "volatilidad móvil" para 5, 25 y 50 velas de histórico respectivamente.
 
-['volatilidad_5']: Utilizando la información de las 5 anteriores velas.
-['volatilidad_25']: Utilizando la información de las 25 anteriores velas.
-['volatilidad_50']: Utilizando la información de las 50 anteriores velas.
+* ['volatilidad_5']: Utilizando la información de las 5 anteriores velas.
+* ['volatilidad_25']: Utilizando la información de las 25 anteriores velas.
+* ['volatilidad_50']: Utilizando la información de las 50 anteriores velas.
 
 Recuerda que la "volatilidad" en una serie de tiempo financiera es, usualmente, la desviación estándar de los 
 rendimientos, sin embargo, uno puede proponer otros "estadísticos" para representar la "variabilidad" entre los datos. 
@@ -130,7 +130,7 @@ df_pe['variabilidad_5'] = df_pe.iloc[:, x].rolling(window=5).mean()
 df_pe['variabilidad_25'] = df_pe.iloc[:, x].rolling(window=25).mean()
 df_pe['variabilidad_50'] = df_pe.iloc[:, x].rolling(window=50).mean()
 
-# -- Grafica de Plotly
+# -- 08: (1pt) Gráfica con Plotly
 """
 Realiza una propuesta de gráfica utilizando alguna de las columnas que has generado y la librería plotly. 
 Las reglas son las siguientes:
