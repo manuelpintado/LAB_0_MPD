@@ -17,7 +17,7 @@ import plotly.graph_objects as go
 
 # token de OANDA
 OA_In = "EUR_USD"  # Instrumento
-OA_Gn = "H4"  # Granularidad de velas
+OA_Gn = "D"  # Granularidad de velas
 fini = pd.to_datetime("2018-07-06 00:00:00").tz_localize('GMT')  # Fecha inicial
 ffin = pd.to_datetime("2019-12-06 00:00:00").tz_localize('GMT')  # Fecha final
 
@@ -99,7 +99,7 @@ En esta columna debes de asignarle el valor de 'alcista' para cuando ['Close'] >
 en el caso contrario.
 """
 df_pe['sentido'] = ["alcista" if df_pe['Close'][i] >= df_pe['Open'][i] else "bajista"
-                      for i in range(0, len(df_pe['Close']))]
+                    for i in range(0, len(df_pe['Close']))]
 
 # -- 06: (.5pt) ['sentido_c'] Conteo de velas consecutivas alcistas/bajistas.
 """
@@ -109,6 +109,15 @@ ejemplo, ['sentido_c'] tendrá un 2  en el tiempo t cuando en el tiempo t-2 y ti
 el tiempo t. En este ejemplo ['sentido_c'] tendría un 2 (en el tiempo t-2 fue la primera vela, y la vela en tiempo t-1 
 y en tiempo t fueron 2 velas fueron consecutivamente en el mismo sentido).
 """
+df_pe['sentido_c'] = 0
+x = 0
+for i in range(1, len(df_pe['sentido'])):
+    if df_pe['sentido'][i - 1] == df_pe['sentido'][i]:
+        x += 1
+        df_pe.loc[i, 'sentido_c'] = x
+    else:
+        x = 0
+        df_pe.loc[i, 'sentido_c'] = x
 
 # -- 07: (1pt) Ventanas móviles de volatilidad
 """
