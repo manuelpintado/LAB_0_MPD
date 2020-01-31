@@ -1,8 +1,8 @@
 # -- ------------------------------------------------------------------------------------ -- #
 # -- Proyecto: Repaso de python 3 y analisis de precios OHLC                              -- #
 # -- Codigo: principal.py - script principal de proyecto                                  -- #
-# -- Rep: https://github.com/ITESOIF/MyST/tree/master/Notas_Python/Notas_RepasoPython     -- #
-# -- Autor: Francisco ME                                                                  -- #
+# -- Rep: https://github.com/manuelpintado/LAB_0_MPD                                      -- #
+# -- Autor: IFI Manuel Pintado Delfin                                                     -- #
 # -- ------------------------------------------------------------------------------------ -- #
 
 # -- ------------------------------------------------------------- Importar con funciones -- #
@@ -61,7 +61,7 @@ df_pe['mes'] = [df_pe['TimeStamp'][i].month for i in range(0, len(df_pe['TimeSta
 'america': si en la columna ['hora'] tiene alguno de estos valores -> 17, 18, 19, 20, 21
 """
 
-# Condiciones para encontrat la sesion de la vela en base a la hora del movimiento con tupla (condicion, respuesta)
+# Condiciones para encontrar la sesion de la vela en base a la hora del movimiento con tupla (condicion, respuesta)
 conditions = [(lambda i: i == 22 or i == 23 or i == 0 or i == 1 or i == 2 or i == 3 or i == 4 or i == 5 or i == 6 or
                          i == 7, 'asia'),
               (lambda i: i == 8, 'asia_europa'),
