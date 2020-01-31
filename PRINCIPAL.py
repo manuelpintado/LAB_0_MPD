@@ -114,10 +114,10 @@ x = 0
 for i in range(1, len(df_pe['sentido'])):
     if df_pe['sentido'][i - 1] == df_pe['sentido'][i]:
         x += 1
-        df_pe.loc[i,'sentido_c'] = x
+        df_pe.loc[i, 'sentido_c'] = x
     else:
         x = 0
-        df_pe.loc[i,'sentido_c'] = x
+        df_pe.loc[i, 'sentido_c'] = x
 
 # -- 07: (1pt) Ventanas móviles de volatilidad
 """
